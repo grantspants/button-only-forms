@@ -1,11 +1,64 @@
 <!DOCTYPE html>
 <html>
 <head>
+  <!--load munchkin-->
+      <script type="text/javascript">
+  (function() {
+    var didInit = false;
+    function initMunchkin() {
+      if(didInit === false) {
+        didInit = true;
+        Munchkin.init('307-QLA-991');
+      }
+    }
+    var s = document.createElement('script');
+    s.type = 'text/javascript';
+    s.async = true;
+    s.src = '//munchkin.marketo.net/munchkin.js';
+    s.onreadystatechange = function() {
+      if (this.readyState == 'complete' || this.readyState == 'loaded') {
+        initMunchkin();
+      }
+    };
+    s.onload = initMunchkin;
+    document.getElementsByTagName('head')[0].appendChild(s);
+  })();
+  </script>
+  <!--Plugin for handling cookies easily-->
+  <script src="https://cdn.jsdelivr.net/npm/js-cookie@rc/dist/js.cookie.min.js"></script>
+  <!--Sets cookie values via URL parameters-->
+  <script type="text/javascript" src="//p-js.s3.amazonaws.com/pa.js"></script>
+  <!--Capture query string parameters for use in urlParams object-->
+  <script>
+  const queryString = window.location.search;
+  console.log(queryString);
+  const urlParams = new URLSearchParams(queryString);
+  </script>
 </head>
 <body>
 <h1>This form should be just a button if your cookie is recognized.</h1>
 <script src="//app-sjh.marketo.com/js/forms2/js/forms2.min.js"></script>
-<form id="mktoForm_5256"></form>
-<script>MktoForms2.loadForm("//app-sjh.marketo.com", "307-QLA-991", 5256);</script>
+<form id="mktoForm_5283"></form>
+<script>
+MktoForms2.loadForm("//app-sjh.marketo.com", "307-QLA-991", 5283, function(form){
+  //Add and set hidden fields for tracking
+  form.addHiddenFields({
+    LeadSource:Cookies.get('pla_ls'),
+    Current_Lead_Source__c:Cookies.get('pla_ls'),
+    LeadSourceDescription__c:Cookies.get('pla_lsd'),
+    CurrentLeadSourceDescription__c:Cookies.get('pla_lsd'),
+    Original_Campaign_ID__c:Cookies.get('pla_cid'),
+    campaign_ID__c:Cookies.get('pla_cid'),
+    Custom_Campaign__c:Cookies.get('pla_ccn'),
+    Current_Custom_Campaign__c:Cookies.get('pla_ccn'),
+    utm_campaign:urlParams.get('utm_campaign'),
+    utm_content:urlParams.get('utm_content'),
+    utm_medium:urlParams.get('utm_medium'),
+    utm_source:urlParams.get('utm_source'),
+    obility_id__c:urlParams.get('obility_id'),
+    ad_id__c:urlParams.get('ad_id')
+  });
+});
+</script>
 </body>
 </html>
